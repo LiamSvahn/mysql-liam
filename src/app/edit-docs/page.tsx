@@ -1,5 +1,6 @@
 "use client"
 
+import './change.css'
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -16,6 +17,8 @@ interface Documents{
     const [user, adduser] = useState("");
     const [product, setproduct] = useState("");
     const [documentet, setdocumnetet] = useState<Documents | undefined>(undefined);
+    const [changeProduct, setChangeProduct] = useState('');
+    const [documnetUser, setChangeUser] = useState('');
 
     const router = useRouter();
 
@@ -28,8 +31,12 @@ interface Documents{
         const getdocs = async () =>{
             const res = await fetch("api/docs/" + documnetid)
             const data = await res.json();
-            console.log("vår product", data[0])
+            console.log("vår product", data[0].user)
+            console.log("documentet ", documentet)
             setdocumnetet(data);
+            setChangeProduct(data[0].product)
+            setChangeUser(data[0].user)
+
         }
         if (documnetid) getdocs();
 
@@ -52,11 +59,18 @@ interface Documents{
 
     return(
         <div>
-            <h1>cahnge</h1>
+            <h1 style={{paddingTop: "50px"}}>cahnge</h1>
+            <div className="document-container">
+                <h2>ditt dokument</h2>
+                <h3>User : {documnetUser}</h3>
+                <h3>Product : {changeProduct}</h3>
+            </div>
 
             {documentet ? (
                 <form onSubmit={handleSubmit}>
+                    <h3>User : </h3>
                     <input type="text" placeholder={documentet.user} value={user} onChange={(e) => adduser(e.target.value)}/>
+                    <h3>Product : </h3>
                     <input type="text" placeholder={documentet.product} value={product} onChange={(e) => setproduct(e.target.value)}/>
                     <button type="submit">spara</button>
                 </form>
@@ -64,6 +78,7 @@ interface Documents{
             ) : (
                 <div>laddar ...</div>
             )}
+            
 
         </div>
     )

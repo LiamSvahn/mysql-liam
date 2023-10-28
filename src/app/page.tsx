@@ -1,5 +1,7 @@
 "use client"
 
+
+import './pageDocuments.css'
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -43,7 +45,8 @@ export default function Home() {
     <div>
       <ul>
       {documents.map((docs: Documents) => (
-        <li key={docs.id}> {docs.user} - {docs.product} - {docs.date} (<button onClick={(e) => handleEdit(docs)}>Edit</button><button onClick={(e) => handleDelet(docs)}>Delet</button>)</li>
+        <li key={docs.id}> {docs.user} - {docs.product} - {docs.date}
+        <div className='editing'><button onClick={(e) => handleEdit(docs)}>Edit</button><button onClick={(e) => handleDelet(docs)}>Delet</button></div></li>
       ))}
       </ul>
     </div>
